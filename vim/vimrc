@@ -1,0 +1,53 @@
+" global options
+set nocompatible          
+set number relativenumber
+set tabstop=2
+set shiftwidth=2
+set expandtab
+set hlsearch
+set ignorecase
+set incsearch
+
+filetype off             
+
+" plugins
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'https://github.com/ycm-core/YouCompleteMe'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'hashivim/vim-terraform'
+Plugin 'iamcco/markdown-preview.nvim'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'arcticicestudio/nord-vim'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
+Plugin 'tpope/vim-surround'
+Plugin 'chrisbra/vim-commentary'
+call vundle#end()           
+filetype plugin indent on   
+
+" netrw
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+augroup ProjectDrawer
+  autocmd!
+  autocmd VimEnter * :Vexplore
+  autocmd VimEnter * wincmd w
+augroup END
+
+" terraform
+let g:terraform_fmt_on_save=1
+let g:hcl_align=1
+let g:terraform_binary_path='terraform'
+
+colorscheme nord
+
+autocmd BufWritePre *.hcl call terraform#fmt()
+
+set updatetime=100
