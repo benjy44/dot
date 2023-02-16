@@ -26,6 +26,9 @@ Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'chrisbra/vim-commentary'
+Plugin 'nvie/vim-flake8'
+Plugin 'dense-analysis/ale'
+Plugin 'https://github.com/github/copilot.vim'
 call vundle#end()           
 filetype plugin indent on   
 
@@ -49,5 +52,9 @@ let g:terraform_binary_path='terraform'
 colorscheme nord
 
 autocmd BufWritePre *.hcl call terraform#fmt()
+autocmd BufWritePost *.py call flake8#Flake8()
+let g:syntastic_python_flake8_args='--ignore=E501'
+
+imap <silent> <C-S-J> <Plug>(copilot-next)
 
 set updatetime=100
