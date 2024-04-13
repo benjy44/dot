@@ -1,5 +1,5 @@
 " global options
-set nocompatible          
+set nocompatible
 set number relativenumber
 set tabstop=2
 set shiftwidth=2
@@ -8,7 +8,7 @@ set hlsearch
 set ignorecase
 set incsearch
 
-filetype off             
+filetype off
 
 " plugins
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -29,8 +29,9 @@ Plugin 'chrisbra/vim-commentary'
 Plugin 'nvie/vim-flake8'
 Plugin 'dense-analysis/ale'
 Plugin 'https://github.com/github/copilot.vim'
-call vundle#end()           
-filetype plugin indent on   
+Plugin 'rhysd/git-messenger.vim'
+call vundle#end()
+filetype plugin indent on
 
 " netrw
 let g:netrw_banner = 0
@@ -38,23 +39,34 @@ let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
-augroup ProjectDrawer
-  autocmd!
-  autocmd VimEnter * :Vexplore
-  autocmd VimEnter * wincmd w
-augroup END
+" augroup ProjectDrawer
+"   autocmd!
+"   autocmd VimEnter * :Vexplore
+"   autocmd VimEnter * wincmd w
+" augroup END
 
 " terraform
 let g:terraform_fmt_on_save=1
 let g:hcl_align=1
 let g:terraform_binary_path='terraform'
 
+
 colorscheme nord
 
 autocmd BufWritePre *.hcl call terraform#fmt()
 autocmd BufWritePost *.py call flake8#Flake8()
+autocmd BufWritePre *.hcl,*.py,*.tf,*.yml,*.yaml :%s/\s\+$//e
+au BufRead,BufNewFile */ansible-infra/**/*.yml set filetype=yaml.ansible
 let g:syntastic_python_flake8_args='--ignore=E501'
+
 
 imap <silent> <C-S-J> <Plug>(copilot-next)
 
+nmap <C-w>m <Plug>(git-messenger)
+
 set updatetime=100
+
+set foldmethod=syntax
+set foldlevelstart=99
+
+let g:copilot_filetypes = {'yaml': v:true, 'ps1': v:true}
